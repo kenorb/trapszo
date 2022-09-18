@@ -21,7 +21,7 @@
  *
  * @package Genmod
  * @subpackage Admin
- * @version $Id: changelog.php 13 2016-04-27 09:26:01Z Boudewijn $
+ * @version $Id: changelog.php 29 2022-07-17 13:18:20Z Boudewijn $
  */
 $search = @$HTTP_GET_VARS["search"];
 if (empty($search)) $search = @$_GET["search"];
@@ -50,7 +50,7 @@ $text = preg_replace("/(\d{6,7})\]/", "\\1 ]", $text);		// 1234567] ==> 1234567 
 $text = preg_replace("/\((\d{6,7})/", "( \\1", $text);		// (1234567 ==> ( 1234567
 $text = preg_replace("/(\d{6,7})\)/", "\\1 )", $text);		// 1234567) ==> 1234567 )
 $text = preg_replace("/(\d{6,7})\,/", "\\1 ,", $text);		// 1234567, ==> 1234567 ,
-$text = preg_replace("/ (\d{6,7}) /", " <a name=\\1 href=http://sourceforge.net/support/tracker.php?aid=\\1>\\1</a> ", $text);
+$text = preg_replace("/ (\d{6,7}) /", " <a name=\\1 href=https://sourceforge.net/support/tracker.php?aid=\\1>\\1</a> ", $text);
 
 $text = preg_replace("/ \(([-\w]{4,12})\)\r\n/", " (<a name=\\1 href=?search=\\1>\\1</a>)\r\n", $text);
 $text = preg_replace("/  /", " ", $text);

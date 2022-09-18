@@ -20,7 +20,7 @@
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
 * @author   Scott Nichol <snichol@users.sourceforge.net>
-* @version  $Id: class.soapclient.php,v 1.69 2010/04/26 20:15:08 snichol Exp $
+* @version  $Id: class.soapclient.php 29 2022-07-17 13:18:20Z Boudewijn $
 * @access   public
 */
 class nusoap_client extends nusoap_base  {

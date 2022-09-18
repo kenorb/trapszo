@@ -22,7 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * @version $Id: db_layout.php 13 2016-04-27 09:26:01Z Boudewijn $
+ * @version $Id: db_layout.php 29 2022-07-17 13:18:20Z Boudewijn $
  * @package Genmod
  * @subpackage DB
  */
@@ -237,6 +237,7 @@ $db_original[TBLPREFIX."gedconf"]["row"]["gc_nick_delim"]["details"] = "VARCHAR 
 $db_original[TBLPREFIX."gedconf"]["row"]["gc_media_external"]["details"] = "TINYINT(1)";
 $db_original[TBLPREFIX."gedconf"]["row"]["gc_media_directory"]["details"] = "VARCHAR (64) CHARACTER SET #charset# COLLATE #collate# ";
 $db_original[TBLPREFIX."gedconf"]["row"]["gc_media_directory_levels"]["details"] = "INT (2)";
+$db_original[TBLPREFIX."gedconf"]["row"]["gc_media_directory_hide"]["details"] = "VARCHAR (64) CHARACTER SET #charset# COLLATE #collate# ";
 $db_original[TBLPREFIX."gedconf"]["row"]["gc_show_highlight_images"]["details"] = "TINYINT(1)";
 $db_original[TBLPREFIX."gedconf"]["row"]["gc_use_thumbs_main"]["details"] = "TINYINT(1)";
 $db_original[TBLPREFIX."gedconf"]["row"]["gc_thumbnail_width"]["details"] = "INT (5)";
@@ -270,10 +271,12 @@ $db_original[TBLPREFIX."gedconf"]["row"]["gc_meta_page_topic"]["details"] = "VAR
 $db_original[TBLPREFIX."gedconf"]["row"]["gc_meta_audience"]["details"] = "VARCHAR (64) CHARACTER SET #charset# COLLATE #collate# ";
 $db_original[TBLPREFIX."gedconf"]["row"]["gc_meta_page_type"]["details"] = "VARCHAR (64) CHARACTER SET #charset# COLLATE #collate# ";
 $db_original[TBLPREFIX."gedconf"]["row"]["gc_meta_robots"]["details"] = "VARCHAR (64) CHARACTER SET #charset# COLLATE #collate# ";
+$db_original[TBLPREFIX."gedconf"]["row"]["gc_meta_robots_DENY"]["details"] = "VARCHAR (64) CHARACTER SET #charset# COLLATE #collate# ";
 $db_original[TBLPREFIX."gedconf"]["row"]["gc_meta_revisit"]["details"] = "VARCHAR (64) CHARACTER SET #charset# COLLATE #collate# ";
 $db_original[TBLPREFIX."gedconf"]["row"]["gc_meta_keywords"]["details"] = "VARCHAR (128) CHARACTER SET #charset# COLLATE #collate# ";
 $db_original[TBLPREFIX."gedconf"]["row"]["gc_meta_title"]["details"] = "VARCHAR (64) CHARACTER SET #charset# COLLATE #collate# ";
 $db_original[TBLPREFIX."gedconf"]["row"]["gc_meta_surname_keywords"]["details"] = "TINYINT(1)";
+$db_original[TBLPREFIX."gedconf"]["row"]["gc_include_in_sitemap"]["details"] = "TINYINT(1)";
 $db_original[TBLPREFIX."gedconf"]["row"]["gc_chart_box_tags"]["details"] = "VARCHAR (64) CHARACTER SET #charset# COLLATE #collate# ";
 // gc_use_quick_update, gc_show_quick_resn, gc_quick_add_facts, gc_quick_required_facts, gc_quick_add_famfacts, gc_quick_required_famfacts removed in 2.0
 $db_original[TBLPREFIX."gedconf"]["row"]["gc_show_lds_at_glance"]["details"] = "TINYINT(1)";

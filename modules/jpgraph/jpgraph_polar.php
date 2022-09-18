@@ -3,7 +3,7 @@
  // File:        JPGRAPH_POLAR.PHP
  // Description: Polar plot extension for JpGraph
  // Created:     2003-02-02
- // Ver:         $Id: jpgraph_polar.php 1796 2009-09-07 09:37:19Z ljp $
+ // Ver:         $Id: jpgraph_polar.php 29 2022-07-17 13:18:20Z Boudewijn $
  //
  // Copyright (c) Asial Corporation. All rights reserved.
  //========================================================================

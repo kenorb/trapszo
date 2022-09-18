@@ -19,7 +19,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: menubar_class.php 13 2016-04-27 09:26:01Z Boudewijn $
+ * $Id: menubar_class.php 29 2022-07-17 13:18:20Z Boudewijn $
  * @package Genmod
  */
 
@@ -145,7 +145,7 @@ abstract class MenuBar {
 		// NOTE: Print preview
 		$submenu = new Menu(GM_LANG_print_preview);
 		// TODO: Querystring contains htmlcode, kills the JS
-		$submenu->addLink(SCRIPT_NAME."?view=preview&".htmlentities(GetQueryString()));
+		$submenu->addLink(basename(SCRIPT_NAME)."?view=preview&".htmlentities(GetQueryString()));
 		$menu->addSubmenu($submenu);
 		
 		// NOTE: Logout link

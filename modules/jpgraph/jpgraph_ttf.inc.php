@@ -3,7 +3,7 @@
 // File:        jpgraph_ttf.inc.php
 // Description: Handling of TTF fonts
 // Created:     2006-11-19
-// Ver:         $Id: jpgraph_ttf.inc.php 1858 2009-09-28 14:39:51Z ljp $
+// Ver:         $Id: jpgraph_ttf.inc.php 29 2022-07-17 13:18:20Z Boudewijn $
 //
 // Copyright (c) Asial Corporation. All rights reserved.
 //========================================================================

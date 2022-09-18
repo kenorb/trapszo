@@ -22,7 +22,7 @@
  *
  * @package Genmod
  * @subpackage RSS
- * @version $Id: rss.php 13 2016-04-27 09:26:01Z Boudewijn $
+ * @version $Id: rss.php 29 2022-07-17 13:18:20Z Boudewijn $
  */
 
 if (isset($_SESSION["CLANGUAGE"])) $oldlang = $_SESSION["CLANGUAGE"];
@@ -72,7 +72,7 @@ $rss->syndicationURL = $syndURL;
 $image = new FeedImage();
 $image->title = GM_LANG_rss_logo_descr;
 $image->url = SERVER_URL."images/gedcom.gif";
-$image->link = "http://www.sourceforge.net/projects/genmod";
+$image->link = "https://www.sourceforge.net/projects/genmod";
 $image->description = GM_LANG_rss_logo_descr;
 
 //optional

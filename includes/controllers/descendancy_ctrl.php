@@ -22,7 +22,7 @@
  *
  * @package Genmod
  * @subpackage Charts
- * @version $Id: descendancy_ctrl.php 18 2016-05-15 08:58:01Z Boudewijn $
+ * @version $Id: descendancy_ctrl.php 29 2022-07-17 13:18:20Z Boudewijn $
  */
 
 if (stristr($_SERVER["SCRIPT_NAME"],basename(__FILE__))) {
@@ -149,7 +149,7 @@ class DescendancyController extends ChartController {
 			print "<li>";
 			print "<img src=\"".GM_IMAGE_DIR."/".$GM_IMAGES["spacer"]["other"]."\" height=\"2\" width=\"$Dindent\" border=\"0\" alt=\"\" />";
 			print "<div class=\"PersonDetails1 DescendancyListMarrBlock\">";
-			print "<a href=\"#\" onclick=\"expand_layer('".$family->xref.$this->personcount."'); return false;\" class=\"top\"><img id=\"".$family->xref.$this->personcount."_img\" src=\"".GM_IMAGE_DIR."/".$GM_IMAGES["minus"]["other"]."\" align=\"middle\" hspace=\"0\" vspace=\"3\" border=\"0\" alt=\"".GM_LANG_view_family."\" /></a> ";
+			print "<a href=\"#\" onclick=\"expand_layer('".$family->xref.$this->personcount."'); return false;\" class=\"top\"><img id=\"".$family->xref.$this->personcount."_img\" src=\"".GM_IMAGE_DIR."/".$GM_IMAGES["minus"]["other"]."\" align=\"middle\" hspace=\"0\" vspace=\"3\" border=\"0\" alt=\"".GM_LANG_view_family."\" title=\"".GM_LANG_view_family."\" /></a> ";
 			if ($family->disp) FactFunctions::PrintSimpleFact($family->marr_fact, false, false); 
 			print "</div>";
 	

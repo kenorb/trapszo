@@ -2,7 +2,7 @@
 /**
  * Functions used in admin pages
  *
- * $Id: functions_admin_class.php 13 2016-04-27 09:26:01Z Boudewijn $
+ * $Id: functions_admin_class.php 29 2022-07-17 13:18:20Z Boudewijn $
  *
  * Genmod: Genealogy Viewer
  * Copyright (C) 2005 - 2012 Genmod Development Team
@@ -313,9 +313,10 @@ abstract class AdminFunctions {
 			}
 			// Correct the level
 			$oldlevel = $mediarec[0];
-			$mediarec = preg_replace("/\n(\d) /e", "'\n'.SumNums($1, $level).' '", $mediarec);
-			$mediarec = preg_replace("/0 @.+@ OBJE\s*\r\n/", "", $mediarec);
-			$mediarec = $level." OBJE\r\n".$mediarec."\r\n";
+			// $mediarec = preg_replace("/\n(\d) /e", "'\n'.SumNums($1, $level).' '", $mediarec);
+			$mediarec = substr(preg_replace_callback("/\n(\d)/", function($matches) use($level) {return $matches[1]+$level;}, $mediarec),1);
+			$mediarec = preg_replace("/@.+@ OBJE/", "", $mediarec);
+			$mediarec = $level." OBJE".$mediarec."\r\n";
 			$gedrec = preg_replace("/$level OBJE @$mmid@\s*/", $mediarec, $gedrec);
 		}
 		return $gedrec;
@@ -340,8 +341,10 @@ abstract class AdminFunctions {
 			}
 			// Correct the level
 			$oldlevel = $noterec[0];
-			$noterec = preg_replace("/\n(\d) /e", "'\n'.SumNums($1, $level).' '", $noterec);
-			$noterec = preg_replace("/^0 @.+@ NOTE/", $level." NOTE", $noterec);
+			// $noterec = preg_replace("/\n(\d) /e", "'\n'.SumNums($1, $level).' '", $noterec);
+			$noterec = substr(preg_replace_callback("/\n(\d)/", function($matches) use($level) {return $matches[1]+$level;}, $noterec),1);
+			$noterec = preg_replace("/@.+@ NOTE/", "", $noterec);
+			$noterec = $level." NOTE".$noterec."\r\n";
 			$gedrec = preg_replace("/$level NOTE @$nid@\s*/", $noterec, $gedrec);
 		}
 		return $gedrec;
@@ -883,7 +886,7 @@ abstract class AdminFunctions {
 			$item["date"] = "";
 			$item["type"] = "Urgent";
 			$item["header"] = "Warning: News cannot be retrieved";
-			$item["text"] = "Genmod cannot retrieve the news from the news server. If this problem persist after next logons, please report this on the <a href=\"http://www.sourceforge.net/projects/genmod\">Genmod Help forum</a>";
+			$item["text"] = "Genmod cannot retrieve the news from the news server. If this problem persist after next logons, please report this on the <a href=\"https://www.sourceforge.net/projects/genmod\">Genmod Help forum</a>";
 			$gmnews[] = $item;
 		}
 		// -- Store the news in the session data

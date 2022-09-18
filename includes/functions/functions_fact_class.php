@@ -23,7 +23,7 @@
  *
  * @package Genmod
  * @subpackage Display
- * @version $Id: functions_fact_class.php 13 2016-04-27 09:26:01Z Boudewijn $
+ * @version $Id: functions_fact_class.php 29 2022-07-17 13:18:20Z Boudewijn $
  */
 if (stristr($_SERVER["SCRIPT_NAME"],basename(__FILE__))) {
 	require "../../intrusion.php";
@@ -226,8 +226,9 @@ abstract class FactFunctions {
 				$prted = self::PrintAssoRelaRecord($factobj, $pid, $prted) || $prted;
 				// -- find _GMU field
 				$ct = preg_match("/2 _GMU (.*)/", $factobj->factrec, $match);
-				if ($ct>0) {
-					print "<br /><span class=\"".($prted?"AssoIndent ":"")."FactDetailLabel\">".GM_FACT__GMU.": </span>".$match[1];
+				if ($ct>0) {			
+					$cuser =& User::GetInstance($match[1]);
+					print "<br /><span class=\"".($prted?"AssoIndent ":"")."FactDetailLabel\">".GM_FACT__GMU.": </span>".$match[1].(!$cuser->is_empty ? " ".PrintReady("(".$cuser->firstname." ".$cuser->lastname.")") : "");
 					$prted = false;
 				}
 				if ($fact!="ADDR") {
@@ -453,7 +454,9 @@ abstract class FactFunctions {
 					do {
 						$trec = GetSubRecord(3, "3 TEXT", $srec, $i);
 						if ($trec != "") {
-							print "<br /><span class=\"FactDetailLabel\">".GM_LANG_text." </span><span class=\"FactDetailField\">".GetGedcomValue("TEXT", 3, $trec);
+							// fix: only print the level 3 TEXT, as the CONT will be added below.
+							$cs = preg_match("/3 TEXT (.*)/", $trec, $cmatch);
+							print "<br /><span class=\"FactDetailLabel\">".GM_LANG_text." </span><span class=\"FactDetailField\">".GetGedcomValue("TEXT", 3, $cmatch[0]);
 							$text = GetCont(4, $trec);
 							$text = self::ExpandUrl($text);
 							print $text;
@@ -1254,7 +1257,7 @@ abstract class FactFunctions {
 				  if (!$firstline) print "<br />";
 				  else $firstline = false;
 				   if ($level>1) print "\n\t\t<span class=\"FactDetailLabel\">".GM_FACT_URL.": </span><span class=\"FactDetailField\">";
-				   print "<a href=\"".$omatch[$i][2]."\" target=\"_blank\">".$omatch[$i][2]."</a>\n";
+				   print "<a href=\"".(!preg_match('/^http/', $omatch[$i][2]) ? "http://" : "") . $omatch[$i][2]."\" target=\"_blank\">".$omatch[$i][2]."</a>\n";
 				   if ($level>1) print "</span>\n";
 			  }
 		 }
@@ -1345,7 +1348,7 @@ abstract class FactFunctions {
 			$yearnow = $yearnow["year"];
 		}
 		else	{
-			$yearnow = $year;
+			$yearnow = intval($year);
 		}
 	
 		$hct = preg_match("/2 DATE.*(@#DHEBREW@)/", $factobj->factrec, $match);
@@ -1386,9 +1389,9 @@ abstract class FactFunctions {
 				if ($yt>0) {
 					$hct = preg_match("/2 DATE.*(@#DHEBREW@)/", $match[1], $hmatch);
 		            if ($hct>0 && GedcomConfig::$USE_RTL_FUNCTIONS && $action=='today')
-	                   $age = $currhYear - $ymatch[1];
+	                   $age = $currhYear - intval($ymatch[1]);
 					else
-					   $age = $yearnow - $ymatch[1];
+					   $age = $yearnow - intval($ymatch[1]);
 					$yt2 = preg_match("/(...) (\d\d\d\d|\d\d\d)/", $match[1], $bmatch);
 					if ($yt2>0) {
 						if (isset($monthtonum[strtolower(trim($bmatch[1]))])) {

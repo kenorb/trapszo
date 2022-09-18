@@ -138,7 +138,7 @@ class GMReport {
 		if ($showGenText) {
 			$element = new GMRCell(0,10, "C", "");
 			$element->addText(GM_LANG_generated_by." Genmod ".GM_VERSION);
-			$element->setUrl("http://www.sourceforge.net/projects/genmod");
+			$element->setUrl("https://www.sourceforge.net/projects/genmod");
 			$this->pdf->addFooter($element);
 		}
 		$this->pdf->SetAutoPageBreak(false);
@@ -650,14 +650,16 @@ $debug = false;
 				if ($debug) {
 					print "<br />element: ";
 					print_r($this->elements[$i]); 
-//					print "<br />lw: ";
-//					print_r($lw); 
+					print "<br />lw: ";
+					print_r($lw); 
 					print "<br />";
 				}
-				if ($lw[1]==1) $w = $lw[0];
-				else if ($lw[1]==2) $w=0;
-				else $w += $lw[0];
-				if ($w>$this->width) $w = $lw[0];
+				if (is_array($lw)) {
+					if ($lw[1]==1) $w = $lw[0];
+					else if ($lw[1]==2) $w=0;
+					else $w += $lw[0];
+					if ($w>$this->width) $w = $lw[0];
+				}
 //				if ($debug) print "Width of the line so far w: ".$w."<br />";
 				if ($this->elements[$i]->get_type()!="GMRFootnote") $eh = $this->elements[$i]->getHeight($pdf);
 				else $eh = 0;

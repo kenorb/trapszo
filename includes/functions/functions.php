@@ -23,7 +23,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  * @package Genmod
- * @version $Id: functions.php 13 2016-04-27 09:26:01Z Boudewijn $
+ * @version $Id: functions.php 29 2022-07-17 13:18:20Z Boudewijn $
  */
 
 /**
@@ -2113,6 +2113,47 @@ function SmartUtf8Decode($in_str) {
 	$new_str = str_replace("&oelig;", "\x9c", $new_str);
 	$new_str = str_replace("&OElig;", "\x8c", $new_str);
 	return $new_str;
+}
+
+function ParseRobotsTXT() {
+	
+	$robots = array();
+	$printline = "";
+	if (!file_exists("robots.txt")) {
+		return $robots;
+	}
+	else {
+		$r = file_get_contents("robots.txt");
+		$r = rtrim($r)."\n";
+		$agents = preg_split("/User-agent: /", $r);
+		foreach ($agents as $agent => $line) {
+			$lines = preg_match_all("/(.*)\n/", $line, $match, PREG_SET_ORDER);
+			$maynot = false;
+			foreach ($match as $key => $rule) {
+				if ($key == 0) {
+					$robot = (trim($rule[0]) == "*" ? "robots" : trim($rule[0]));
+//					print "found robot ".$robot."<br />";
+				}
+				else {
+//					print "check ".$rule[0]." ".$_SERVER["SCRIPT_NAME"]."<br />";
+					if (strpos($rule[0], "/\n") !== false && strpos($rule[0], "Disallow:") !== false) {
+						$maynot = true;
+					}
+					if (strpos($rule[0], "/".basename($_SERVER["SCRIPT_NAME"])) !== false && strpos($rule[0], "Disallow:") !== false) {
+						$maynot = true;
+					}
+				}
+			}
+			if ($maynot) {
+//				print "found for ".$robot." page ". $rule[0];
+				$printline .= "<meta name=\"".$robot."\" content=\"".GedcomConfig::$META_ROBOTS_DENY."\" />\n";
+			}
+			else {
+				if (isset($robot)) $printline .= "<meta name=\"".$robot."\" content=\"".GedcomConfig::$META_ROBOTS."\" />\n";
+			}
+		}
+	}
+	return $printline;
 }
 	
 ?>

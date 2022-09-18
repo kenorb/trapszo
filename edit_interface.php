@@ -21,7 +21,7 @@
  *
  * @package Genmod
  * @subpackage Edit
- * @version $Id: edit_interface.php 30 2016-07-08 09:16:21Z Boudewijn $
+ * @version $Id: edit_interface.php 29 2022-07-17 13:18:20Z Boudewijn $
  */
 
 /**
@@ -841,6 +841,8 @@ switch ($action) {
 			}
 			if (remElement) {
 				remElement.style.display = 'block';
+			}
+			if (pediElement) {
 				pediElement.style.display = 'block';
 			}
 		}
@@ -1395,7 +1397,9 @@ switch ($action) {
 		$gedrec = EditFunctions::HandleUpdates($gedrec);
 		if ($addsource == "2") {
 			$addsourcevalue = GetSubRecord(1, "1 SOUR", $gedrec);
-			$addsourcevalue = substr(preg_replace("/\n(\d) /e", "'\n'.SumNums($1, 1).' '", $addsourcevalue),1);
+			//$addsourcevalue = substr(preg_replace("/\n(\d) /e", "'\n'.SumNums($1, 1).' '", $addsourcevalue),1);
+			// $addsourcevalue = substr(preg_replace_callback("/\n(\d) /", function($matches){return "\n".SumNums($1, 1)." ";}, $addsourcevalue),1);
+			$addsourcevalue = substr(preg_replace_callback("/\n(\d)/", function($matches){return $matches[1]+1;}, $addsourcevalue),1);
 			if (!empty($addsourcevalue)) $addsourcevalue = trim("2".$addsourcevalue)."\r\n";
 		}
 		if ($addsource) $gedrec = preg_replace("/2 SOUR @XXX@\r\n/", $addsourcevalue, $gedrec); 
@@ -1493,7 +1497,8 @@ switch ($action) {
 		$l1source = GetSubRecord(1, "1 SOUR", $newrec);
 		if ($addsource == "2") {
 			$addsourcevalue = GetSubRecord(1, "1 SOUR", $newrec);
-			$addsourcevalue = substr(preg_replace("/\n(\d) /e", "'\n'.SumNums($1, 1).' '", $addsourcevalue),1);
+			//$addsourcevalue = substr(preg_replace("/\n(\d) /e", "'\n'.SumNums($1, 1).' '", $addsourcevalue),1);
+			$addsourcevalue = substr(preg_replace_callback("/\n(\d)/", function($matches){return $matches[1]+1;}, $addsourcevalue),1);
 			if (!empty($addsourcevalue)) $addsourcevalue = trim("2".$addsourcevalue)."\r\n";
 		}
 		if ($addsource) $newrec = preg_replace("/2 SOUR @XXX@\r\n/", $addsourcevalue, $newrec); 
@@ -1811,7 +1816,8 @@ switch ($action) {
 		$l1source = GetSubRecord(1, "1 SOUR", $newrec);
 		if ($addsource == "2") {
 			$addsourcevalue = GetSubRecord(1, "1 SOUR", $newrec);
-			$addsourcevalue = substr(preg_replace("/\n(\d) /e", "'\n'.SumNums($1, 1).' '", $addsourcevalue),1);
+			// $addsourcevalue = substr(preg_replace("/\n(\d) /e", "'\n'.SumNums($1, 1).' '", $addsourcevalue),1);
+			$addsourcevalue = substr(preg_replace_callback("/\n(\d)/", function($matches){return $matches[1]+1;}, $addsourcevalue),1);
 			if (!empty($addsourcevalue)) $addsourcevalue = trim("2".$addsourcevalue)."\r\n";
 		}
 		if ($addsource) $newrec = preg_replace("/2 SOUR @XXX@\r\n/", $addsourcevalue, $newrec); 
@@ -2324,7 +2330,7 @@ switch ($action) {
 	// NOTE editname done
 	case "editname":
 		$namerecnew = GetSubRecord(1, "1 NAME", $gedrec, $count);
-		EditFunctions::PrintIndiForm("update", "", "", $namerecnew);
+		EditFunctions::PrintIndiForm("update", "", "", $namerecnew, "", $count);
 		break;
 		
 	
@@ -2541,7 +2547,7 @@ switch ($action) {
 			$oldrec = $gedrec;
 		}
 		else $oldrec = "";
-		
+
 		if (!isset($gedfile)) $gedfile = GedcomConfig::$GEDCOMID;
 		//-- check for photo update
 		if (count($_FILES)>0) {

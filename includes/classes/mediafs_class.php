@@ -21,7 +21,7 @@
  *
  * @package Genmod
  * @subpackage DataModel
- * @version $Id: mediafs_class.php 16 2016-05-02 19:52:33Z Boudewijn $
+ * @version $Id: mediafs_class.php 29 2022-07-17 13:18:20Z Boudewijn $
  */
 
 if (stristr($_SERVER["SCRIPT_NAME"],basename(__FILE__))) {
@@ -66,11 +66,12 @@ abstract class MediaFS {
 			//print "Getting : ".$directory."<br />";
 			$canwrite = true;
 			$exclude_dirs = array(INDEX_DIRECTORY, "./languages/", "./fonts/", "./hooks/", "./images/", "./includes", "./languages/", "./modules/", "./places/", "./reports/", "./ufpdf/", "./themes/", "./blocks/", "./install/", "./includes/", "./pgvnuke/");
+			$exclude_mediadirs = explode(",",str_replace(", ",",",GedcomConfig::$MEDIA_DIRECTORY_HIDE));
 			if ($level <= GedcomConfig::$MEDIA_DIRECTORY_LEVELS) {
 				$d = @dir($directory);
 				if (is_object($d)) {
 					while (false !== ($entry = $d->read())) {
-						if ($entry != ".." && $entry != "." && $entry != "CVS" && $entry != ".svn" && $entry != "_svn" && ($incthumbdir || $entry != "thumbs")) {
+						if (!in_array($entry, $exclude_mediadirs) && ($incthumbdir || $entry != "thumbs")) {
 							$entry = $directory.$entry;
 							if(is_dir($entry)) {
 								$entry .= "/";
@@ -86,6 +87,7 @@ abstract class MediaFS {
 				}
 			}
 		}
+		sort($dirs);
 		return $dirs;
 	}
 
@@ -797,12 +799,14 @@ abstract class MediaFS {
 				}
 				$mimetypedetect = New MimeTypeDetect();
 				$mime = $mimetypedetect->FindMimeType($filename);
-				self::$fdetails["mimetype"] = $mime["mime_type"];
-				self::$fdetails["mimedesc"] = $mime["description"];
-				$exts = preg_split("/;/", $mime["extension"]);
-				$ext = $exts[0];
-				if (!empty($ext)) $ext = substr($ext,1);
-				self::$fdetails["extension"] = $ext;
+				if (is_array($mime)) {
+					self::$fdetails["mimetype"] = $mime["mime_type"];
+					self::$fdetails["mimedesc"] = $mime["description"];
+					$exts = preg_split("/;/", $mime["extension"]);
+					$ext = $exts[0];
+					if (!empty($ext)) $ext = substr($ext,1);
+					self::$fdetails["extension"] = $ext;
+				}
 				return self::$fdetails;
 			}
 			else return false;

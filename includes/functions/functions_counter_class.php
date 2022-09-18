@@ -21,7 +21,7 @@
  * @package Genmod
  * @subpackage Tools
  *
- * $Id: functions_counter_class.php 13 2016-04-27 09:26:01Z Boudewijn $
+ * $Id: functions_counter_class.php 29 2022-07-17 13:18:20Z Boudewijn $
  */
  
 if (stristr($_SERVER["SCRIPT_NAME"],basename(__FILE__))) {
@@ -113,7 +113,7 @@ abstract class CounterFunctions {
 		
 			//replace the numbers with their images
 			for($i=0;$i<10;$i++)
-		    $hits = str_replace("$i","<img src=\"".GM_IMAGE_DIR."/".$GM_IMAGES[$i]["digit"]."\" alt=\"".GM_LANG_hit_count."\" />","$hits");
+		    $hits = str_replace("$i","<img src=\"".GM_IMAGE_DIR."/".$GM_IMAGES[$i]["digit"]."\" alt=\"".GM_LANG_hit_count."\" title=\"".GM_LANG_hit_count."\" />","$hits");
 			$hits = '<span dir="ltr">'.$hits.'</span>';
 			return $hits;
 		}

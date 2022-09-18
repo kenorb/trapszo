@@ -22,7 +22,7 @@
  *
  * @package Genmod
  * @subpackage Charts
- * @version $Id: paternals_ctrl.php 13 2016-04-27 09:26:01Z Boudewijn $
+ * @version $Id: paternals_ctrl.php 29 2022-07-17 13:18:20Z Boudewijn $
  */
 
 if (stristr($_SERVER["SCRIPT_NAME"],basename(__FILE__))) {
@@ -125,7 +125,7 @@ class PaternalsController extends ChartController {
 				$this->rootfams = $this->PrintParents($this->rootfams, $i);
 			}
 			// Only go on if the persons had ancestral families
-			if (count($this->rootfams > 0)) {
+			if (count($this->rootfams) > 0) {
 				if ($this->line == "long") $this->PrintLongestLines();
 				else $this->PrintAncestors();
 			}

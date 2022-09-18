@@ -4,7 +4,7 @@
 // Description: Class to handle RGb color space specification and
 //              named colors
 // Created:     2001-01-08 (Refactored to separate file 2008-08-01)
-// Ver:         $Id: jpgraph_rgb.inc.php 1893 2009-10-02 23:15:25Z ljp $
+// Ver:         $Id: jpgraph_rgb.inc.php 29 2022-07-17 13:18:20Z Boudewijn $
 //
 // Copyright (c) Asial Corporation. All rights reserved.
 //========================================================================

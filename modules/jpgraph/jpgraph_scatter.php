@@ -3,7 +3,7 @@
  // File:        JPGRAPH_SCATTER.PHP
  // Description: Scatter (and impuls) plot extension for JpGraph
  // Created:     2001-02-11
- // Ver:         $Id: jpgraph_scatter.php 1397 2009-06-27 21:34:14Z ljp $
+ // Ver:         $Id: jpgraph_scatter.php 29 2022-07-17 13:18:20Z Boudewijn $
  //
  // Copyright (c) Asial Corporation. All rights reserved.
  //========================================================================

@@ -23,7 +23,7 @@
  *
  * @package Genmod
  * @subpackage Themes
- * @version $Id: style.css 25 2016-05-27 06:47:30Z Boudewijn $
+ * @version $Id: style.css 29 2022-07-17 13:18:20Z Boudewijn $
  */
 
 .something {
@@ -555,6 +555,7 @@ textarea {
 	margin-right: auto;
 	vertical-align: middle;
 	border: 1px solid #9B9796;
+	white-space: normal;
 }
 /* Style for the popup with edit functions */
 .FactLabelCellEdit {
@@ -1193,8 +1194,10 @@ IMG.StatsPlot {
 }
 .LoginPageTable {
 	width: 40%;
+	table-layout: fixed;
 	margin-left: auto;
 	margin-right: auto;
+	white-space: normal;
 }
 .LoginPageTableTextWidth {
 	width: 40%;
@@ -1878,7 +1881,10 @@ DIV.ActionListOptionContainer SPAN {
 .GedcomBlockTime, .GedcomBlockCounter, .UserBlockPediLink, .UserBlockIndiLink, .UserBlockTimeLink {
 	margin-top: 8px;
 }
-.GedcomBlockCustLink, .GedcomBlockFavLink, .UserBlockOwnLink  {
+.GedcomBlockCustLink, #GedcomBlockFavLink, .UserBlockOwnLink  {
+}
+#GedcomBlockFavLink {
+	display: none;
 }
 
 .TodaysEventsName, .UpcomingEventsName, .Top10Name, .RecentChangesName {
@@ -1952,6 +1958,7 @@ DIV.ActionListOptionContainer SPAN {
 	border: 1px solid #9B9796;
 	padding: 3px;
 	font-size: 11px;
+	white-space: normal;
 }
 .QSLeftBlock, .AddFavLeftBlock {
 	width: 50%;
@@ -2413,6 +2420,10 @@ td.UploadGedcomNavBlockLabel {
 }
 .ManageMediaBlockContent {
 	line-height: 1.6em;
+}
+.ManageMediaBlockInputText {
+	box-sizing: border-box;
+	width: 100%;
 }
 #ManageMediaFilterBlock {
 	text-align: center;

@@ -22,7 +22,7 @@
  * @subpackage Tools
  * @see validategedcom.php
  *
- * $Id: functions_block_class.php 13 2016-04-27 09:26:01Z Boudewijn $
+ * $Id: functions_block_class.php 29 2022-07-17 13:18:20Z Boudewijn $
  */
  
 if (stristr($_SERVER["SCRIPT_NAME"],basename(__FILE__))) {
@@ -34,7 +34,7 @@ abstract class BlockFunctions {
 	public function PrintAdminIcon() {
 		global $GM_IMAGES;
 		
-		print "<img class=\"BlockAdminIcon\" src=\"".GM_IMAGE_DIR."/".$GM_IMAGES["admin"]["small"]."\" alt=\"".GM_LANG_config_block."\" />\n";
+		print "<img class=\"BlockAdminIcon\" src=\"".GM_IMAGE_DIR."/".$GM_IMAGES["admin"]["small"]."\" alt=\"".GM_LANG_config_block."\" title=\"".GM_LANG_config_block."\" />\n";
 	}
 	/**
 	 * get the top surnames
@@ -452,7 +452,7 @@ abstract class BlockFunctions {
 			<br />
 		<?php
 		PrintHelpLink("index_add_favorites_help", "qm", "add_favorite");
-		print "<b><a href=\"javascript: ".GM_LANG_add_favorite." \" onclick=\"expand_layer('add_".$type."_fav'); return false;\"><img id=\"add_".$type."_fav_img\" src=\"".GM_IMAGE_DIR."/".$GM_IMAGES["plus"]["other"]."\" border=\"0\" alt=\"".GM_LANG_add_favorite."\" />&nbsp;".GM_LANG_add_favorite."</a></b>";
+		print "<b><a href=\"javascript: ".GM_LANG_add_favorite." \" onclick=\"expand_layer('add_".$type."_fav'); return false;\"><img id=\"add_".$type."_fav_img\" src=\"".GM_IMAGE_DIR."/".$GM_IMAGES["plus"]["other"]."\" border=\"0\" alt=\"".GM_LANG_add_favorite."\" title=\"".GM_LANG_add_favorite."\" />&nbsp;".GM_LANG_add_favorite."</a></b>";
 		print "<br /><div id=\"add_".$type."_fav\" style=\"display: none;\">\n";
 			print "<form name=\"addfavform\" method=\"get\" action=\"index.php\">\n";
 			print "<input type=\"hidden\" name=\"action\" value=\"addfav\" />\n";
@@ -499,6 +499,7 @@ abstract class BlockFunctions {
 		
 		// First see if the cache must be refreshed
 		$cache_load = GedcomConfig::GetLastCacheDate("stats", GedcomConfig::$GEDCOMID);
+		// $cache_load=false;
 		if (!$cache_load) {
 			$sql = "DELETE FROM ".TBLPREFIX."statscache WHERE gs_file='".GedcomConfig::$GEDCOMID."'";
 			$res = NewQuery($sql);
@@ -590,7 +591,7 @@ abstract class BlockFunctions {
 			$stats["gs_latest_birth_gid"] = $row[0];
 	
 			// NOTE: Get the person who lived the longest
-			$sql = "SELECT death.d_year-birth.d_year AS age, death.d_gid FROM ".TBLPREFIX."dates AS death, ".TBLPREFIX."dates AS birth WHERE birth.d_gid=death.d_gid AND death.d_file='".GedcomConfig::$GEDCOMID."' and birth.d_file=death.d_file AND birth.d_fact='BIRT' AND death.d_fact='DEAT' AND birth.d_year>0 AND death.d_year>0 AND birth.d_type IS NULL AND death.d_type IS NULL ORDER BY age DESC limit 1";
+			$sql = "SELECT death.d_year-birth.d_year AS age, death.d_gid FROM ".TBLPREFIX."dates AS death, ".TBLPREFIX."dates AS birth WHERE birth.d_gid=death.d_gid AND death.d_file='".GedcomConfig::$GEDCOMID."' and birth.d_file=death.d_file AND birth.d_fact='BIRT' AND death.d_fact='DEAT' AND birth.d_year>0 AND death.d_year>0 AND birth.d_type IS NULL AND death.d_type IS NULL AND birth.d_ext='' AND death.d_ext='' ORDER BY age DESC limit 1";
 			$res = NewQuery($sql);
 			$row = $res->FetchRow();
 			$res->FreeResult();
@@ -630,7 +631,7 @@ abstract class BlockFunctions {
 			}
 			else $stats["gs_avg_children"] = "";
 			
-			$sql = "INSERT INTO ".TBLPREFIX."statscache ";
+			$sql = "REPLACE INTO ".TBLPREFIX."statscache ";
 			$sqlf = "(gs_file";
 			$sqlv = "('".GedcomConfig::$GEDCOMID."'";
 			foreach($stats as $skey => $svalue) {

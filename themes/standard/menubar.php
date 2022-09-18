@@ -20,7 +20,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  * @package Genmod
- * @version $Id: menubar.php 13 2016-04-27 09:26:01Z Boudewijn $
+ * @version $Id: menubar.php 29 2022-07-17 13:18:20Z Boudewijn $
  */
 
 /**
@@ -135,7 +135,7 @@ if (is_object($custommenu)) $showmenu[GM_LANG_my_pages] = CreateMenu($custommenu
 		<?php if (isset($GEDCOMS[GedcomConfig::$GEDCOMID])) { ?>
 			<div id="HeaderLogoLink">
 			<a href="index.php?command=gedcom">
-			<img src="<?php print GM_IMAGE_DIR."/".$GM_IMAGES['gedcom']['small']; ?>" alt="<?php print $GEDCOMS[GedcomConfig::$GEDCOMID]['title']; ?>" />
+			<img src="<?php print GM_IMAGE_DIR."/".$GM_IMAGES['gedcom']['small']; ?>" alt="<?php print $GEDCOMS[GedcomConfig::$GEDCOMID]['title']; ?>" title="<?php print $GEDCOMS[GedcomConfig::$GEDCOMID]['title']; ?>" />
 			</a>
 			</div>
 		<?php } 

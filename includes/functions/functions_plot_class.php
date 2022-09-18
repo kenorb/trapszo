@@ -24,7 +24,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * @version $Id: functions_plot_class.php 13 2016-04-27 09:26:01Z Boudewijn $
+ * @version $Id: functions_plot_class.php 29 2022-07-17 13:18:20Z Boudewijn $
  * @package Genmod
  * @subpackage DB
  */
@@ -608,6 +608,7 @@ abstract class PlotFunctions {
 		global $legend, $xdata, $ydata, $xmax, $xgrenzen, $zmax, $zgrenzen, $xgiven,$zgiven, $percentage;
 		global $colors;
 		global $showShadow, $valuePos, $graphSize, $value_angle, $screenRes, $windowRes;
+		global $GM_BASE_DIRECTORY;
 	
 		$b= array();
 	
@@ -616,7 +617,7 @@ abstract class PlotFunctions {
 			$new_size = array();
 			if ($graphSize == "autoScreen") $new_size = explode("x",$screenRes);
 			else if ($graphSize == "autoWindow") $new_size = explode("x",$windowRes);
-			if (count($new_size >= 2)) {
+			if (count($new_size) >= 2) {
 				$graph_width = ($new_size[0]*7)/8;
 				$graph_height = ($graph_width*4)/7;
 			}
@@ -677,7 +678,7 @@ abstract class PlotFunctions {
 		}
 		$accbar = new GroupBarPlot($groupBarArray);
 	
-		$graphFile = tempnam($_SERVER['DOCUMENT_ROOT']."/index/", "GM");
+		$graphFile = tempnam($GM_BASE_DIRECTORY."index/", "GM");
 		unlink($graphFile);
 		$graph-> Add($accbar);
 		$graph-> Stroke($graphFile);

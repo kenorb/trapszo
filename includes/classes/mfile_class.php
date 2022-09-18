@@ -21,7 +21,7 @@
  *
  * @package Genmod
  * @subpackage DataModel
- * @version $Id: mfile_class.php 13 2016-04-27 09:26:01Z Boudewijn $
+ * @version $Id: mfile_class.php 29 2022-07-17 13:18:20Z Boudewijn $
  */
 
 if (stristr($_SERVER["SCRIPT_NAME"],basename(__FILE__))) {
@@ -222,8 +222,10 @@ class MFile {
 					}
 				}
 			}
-			$this->f_mimetype = $mimetype["mime_type"];
-			$this->f_mimedescr = $mimetype["description"];
+			if ($mimetype) {
+				$this->f_mimetype = $mimetype["mime_type"];
+				$this->f_mimedescr = $mimetype["description"];
+			}
 			
 			// Get the extension
 			$et = preg_match("/(\.\w+)$/", $this->f_file, $ematch);

@@ -21,7 +21,7 @@
  *
  * @package Genmod
  * @subpackage Charts
- * @version $Id: timeline_ctrl.php 13 2016-04-27 09:26:01Z Boudewijn $
+ * @version $Id: timeline_ctrl.php 29 2022-07-17 13:18:20Z Boudewijn $
  */
  
 if (stristr($_SERVER["SCRIPT_NAME"],basename(__FILE__))) {
@@ -200,10 +200,10 @@ class TimelineController extends BaseController {
 			$this->familyfacts[$famid.$factobj->fact] = $factitem["p"];
 		}
 		$date = ParseDate($factobj->datestring);
-		$year = $date[0]["year"];
+		$year = intval($date[0]["year"]);
 	
-		$month = $date[0]["mon"];
-		$day = $date[0]["day"];
+		$month = intval($date[0]["mon"]);
+		$day = intval($date[0]["day"]);
 		$xoffset = $basexoffset+22;
 		$yoffset = $baseyoffset+(($year-$this->baseyear) * $this->scale)-($this->scale);
 		$yoffset = $yoffset + (($month / 12) * $this->scale);

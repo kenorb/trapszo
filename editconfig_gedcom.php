@@ -24,7 +24,7 @@
  * @author GM Development Team
  * @package Genmod
  * @subpackage Admin
- * @version $Id: editconfig_gedcom.php 31 2016-07-08 14:01:11Z Boudewijn $
+ * @version $Id: editconfig_gedcom.php 29 2022-07-17 13:18:20Z Boudewijn $
  */
 
 /**
@@ -298,6 +298,7 @@ if ($action=="update") {
 	$newconf["max_descendancy_generations"] = $_POST["NEW_MAX_DESCENDANCY_GENERATIONS"];
 	$newconf["max_pedigree_generations"] = $_POST["NEW_MAX_PEDIGREE_GENERATIONS"];
 	$newconf["media_directory"] = $_POST["NEW_MEDIA_DIRECTORY"];
+	$newconf["media_directory_hide"] = $_POST["NEW_MEDIA_DIRECTORY_HIDE"];
 	$newconf["media_directory_levels"] = $_POST["NEW_MEDIA_DIRECTORY_LEVELS"];
 	$newconf["media_external"] = $boolarray[$_POST["NEW_MEDIA_EXTERNAL"]];
 	$newconf["media_facts_add"] = $_POST["NEW_MEDIA_FACTS_ADD"];
@@ -315,6 +316,7 @@ if ($action=="update") {
 	$newconf["meta_publisher"] = $_POST["NEW_META_PUBLISHER"];
 	$newconf["meta_revisit"] = $_POST["NEW_META_REVISIT"];
 	$newconf["meta_robots"] = $_POST["NEW_META_ROBOTS"];
+	$newconf["meta_robots_deny"] = $_POST["NEW_META_ROBOTS_DENY"];
 	$newconf["meta_surname_keywords"] = $boolarray[$_POST["NEW_META_SURNAME_KEYWORDS"]];
 	$newconf["meta_title"] = $_POST["NEW_META_TITLE"];
 	$newconf["nick_delim"] = $_POST["NEW_NICK_DELIM0"].$_POST["NEW_NICK_DELIM1"];
@@ -336,6 +338,7 @@ if ($action=="update") {
 	$newconf["show_counter"] = $boolarray[$_POST["NEW_SHOW_COUNTER"]];
 	$newconf["show_empty_boxes"] = $boolarray[$_POST["NEW_SHOW_EMPTY_BOXES"]];
 	$newconf["show_external_search"] = $_POST["NEW_SHOW_EXTERNAL_SEARCH"];
+	$newconf["include_in_sitemap"] = $boolarray[$_POST["NEW_INCLUDE_IN_SITEMAP"]];
 	$newconf["lists_all"] = $boolarray[$_POST["NEW_LISTS_ALL"]];
 	$newconf["show_fam_id_numbers"] = $boolarray[$_POST["NEW_SHOW_FAM_ID_NUMBERS"]];
 	$newconf["show_gedcom_record"] = $_POST["NEW_SHOW_GEDCOM_RECORD"];
@@ -795,6 +798,10 @@ if (!isset($themeselect)) $themeselect="";
 	<tr>
 		<td class="NavBlockLabel AdminNavBlockLabel"><div class="HelpIconContainer"><?php PrintHelpLink("MEDIA_DIRECTORY_LEVELS_help", "qm", "MEDIA_DIRECTORY_LEVELS"); print "</div><div class=\"AdminNavBlockOptionText\">"; print GM_LANG_MEDIA_DIRECTORY_LEVELS;?></div></td>
 		<td class="NavBlockField AdminNavBlockField"><input type="text" name="NEW_MEDIA_DIRECTORY_LEVELS" value="<?php print GedcomConfig::$MEDIA_DIRECTORY_LEVELS?>" size="5" tabindex="<?php $i++; print $i?>" /></td>
+	</tr>
+	<tr>
+		<td class="NavBlockLabel AdminNavBlockLabel"><div class="HelpIconContainer"><?php PrintHelpLink("MEDIA_DIRECTORY_HIDE_help", "qm", "MEDIA_DIRECTORY_HIDE"); print "</div><div class=\"AdminNavBlockOptionText\">"; print GM_LANG_MEDIA_DIRECTORY_HIDE;?></div></td>
+		<td class="NavBlockField AdminNavBlockField"><input type="text" name="NEW_MEDIA_DIRECTORY_HIDE" value="<?php print GedcomConfig::$MEDIA_DIRECTORY_HIDE?>" size="50" tabindex="<?php $i++; print $i?>" /></td>
 	</tr>
 	<tr>
 		<td class="NavBlockLabel AdminNavBlockLabel"><div class="HelpIconContainer"><?php PrintHelpLink("THUMBNAIL_WIDTH_help", "qm", "THUMBNAIL_WIDTH"); print "</div><div class=\"AdminNavBlockOptionText\">"; print GM_LANG_THUMBNAIL_WIDTH;?></div></td>
@@ -1563,6 +1570,11 @@ print "&nbsp;<a href=\"javascript: ".htmlentities(GM_LANG_meta_conf)."\" onclick
 		</td>
 	</tr>
 	<tr>
+		<td class="NavBlockLabel AdminNavBlockLabel"><div class="HelpIconContainer"><?php PrintHelpLink("META_ROBOTS_DENY_help", "qm", "META_ROBOTS_DENY"); print "</div><div class=\"AdminNavBlockOptionText\">"; print GM_LANG_META_ROBOTS_DENY;?></div></td>
+		<td class="NavBlockField AdminNavBlockField"><input type="text" dir="ltr" name="NEW_META_ROBOTS_DENY" value="<?php print GedcomConfig::$META_ROBOTS_DENY?>" tabindex="<?php $i++; print $i?>" /><br />
+		</td>
+	</tr>
+	<tr>
 		<td class="NavBlockLabel AdminNavBlockLabel"><div class="HelpIconContainer"><?php PrintHelpLink("META_REVISIT_help", "qm", "META_REVISIT"); print "</div><div class=\"AdminNavBlockOptionText\">"; print GM_LANG_META_REVISIT;?></div></td>
 		<td class="NavBlockField AdminNavBlockField"><input type="text" dir="ltr" name="NEW_META_REVISIT" value="<?php print GedcomConfig::$META_REVISIT?>" tabindex="<?php $i++; print $i?>" /><br />
 		</td>
@@ -1583,6 +1595,14 @@ print "&nbsp;<a href=\"javascript: ".htmlentities(GM_LANG_meta_conf)."\" onclick
 	<tr>
 		<td class="NavBlockLabel AdminNavBlockLabel"><div class="HelpIconContainer"><?php PrintHelpLink("META_TITLE_help", "qm", "META_TITLE"); print "</div><div class=\"AdminNavBlockOptionText\">"; print GM_LANG_META_TITLE;?></div></td>
 		<td class="NavBlockField AdminNavBlockField"><input type="text" dir="ltr" name="NEW_META_TITLE" value="<?php print GedcomConfig::$META_TITLE?>" tabindex="<?php $i++; print $i?>" size="75" /></td>
+	</tr>
+	<tr>
+		<td class="NavBlockLabel AdminNavBlockLabel"><div class="HelpIconContainer"><?php PrintHelpLink("INCLUDE_IN_SITEMAP_help", "qm", "INCLUDE_IN_SITEMAP"); print "</div><div class=\"AdminNavBlockOptionText\">"; print GM_LANG_INCLUDE_IN_SITEMAP;?></div></td>
+		<td class="NavBlockField AdminNavBlockField"><select name="NEW_INCLUDE_IN_SITEMAP" tabindex="<?php $i++; print $i?>">
+				<option value="yes" <?php if (GedcomConfig::$INCLUDE_IN_SITEMAP) print "selected=\"selected\""; ?>><?php print GM_LANG_yes;?></option>
+				<option value="no" <?php if (!GedcomConfig::$INCLUDE_IN_SITEMAP) print "selected=\"selected\""; ?>><?php print GM_LANG_no;?></option>
+			</select>
+		</td>
 	</tr>
 	<tr>
 		<td class="NavBlockLabel AdminNavBlockLabel"><div class="HelpIconContainer"><?php PrintHelpLink("RSS_FORMAT_help", "qm", "RSS_FORMAT"); print "</div><div class=\"AdminNavBlockOptionText\">"; print GM_LANG_RSS_FORMAT;?></div></td>

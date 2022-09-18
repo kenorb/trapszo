@@ -23,7 +23,7 @@
  *
  * @package Genmod
  * @subpackage Display
- * @version $Id: functions_print.php 26 2016-06-18 14:16:50Z Boudewijn $
+ * @version $Id: functions_print.php 29 2022-07-17 13:18:20Z Boudewijn $
  */
 if (stristr($_SERVER["SCRIPT_NAME"],basename(__FILE__))) {
 	require "../../intrusion.php";
@@ -140,7 +140,7 @@ function PrintHeader($title, $head="",$use_alternate_styles=true) {
 	 }
 	 if ($view == "preview") print "<link rel=\"stylesheet\" href=\"".GM_PRINT_STYLESHEET."\" type=\"text/css\" media=\"print\" />\n\t";
 	 if ($BROWSERTYPE == "msie") print "<style type=\"text/css\">\nFORM { margin-top: 0px; margin-bottom: 0px; }\n</style>\n";
-	 print "<!-- Genmod v".GM_VERSION." -->\n";
+	 print "<!--  Genmod v".GM_VERSION." -->\n";
 	 if (isset($changelanguage)) {
 		  $terms = preg_split("/[&?]/", $QUERY_STRING);
 		  $vars = "";
@@ -152,6 +152,9 @@ function PrintHeader($title, $head="",$use_alternate_styles=true) {
 		  $query_string = $vars;
 	 }
 	 else $query_string = $QUERY_STRING;
+	// Viewport should be included also in preview mode
+	// print "<meta name=\"viewport\" content=\"width=1020, initial-scale=1.01\" />\n";
+	 print "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.1\" />\n";
 	 if ($view!="preview") {
 		 $old_META_AUTHOR = GedcomConfig::$META_AUTHOR;
 		 $old_META_PUBLISHER = GedcomConfig::$META_PUBLISHER;
@@ -179,10 +182,9 @@ function PrintHeader($title, $head="",$use_alternate_styles=true) {
 		  if (!empty(GedcomConfig::$META_PAGE_TOPIC)) print "<meta name=\"page-topic\" content=\"".preg_replace("/\"/", "", GedcomConfig::$META_PAGE_TOPIC)."\" />\n";
 	 	  if (!empty(GedcomConfig::$META_AUDIENCE)) print "<meta name=\"audience\" content=\"".GedcomConfig::$META_AUDIENCE."\" />\n";
 	 	  if (!empty(GedcomConfig::$META_PAGE_TYPE)) print "<meta name=\"page-type\" content=\"".GedcomConfig::$META_PAGE_TYPE."\" />\n";
-	 	  if (!empty(GedcomConfig::$META_ROBOTS)) print "<meta name=\"robots\" content=\"".GedcomConfig::$META_ROBOTS."\" />\n";
+	 	  print ParseRobotsTXT();
 	 	  if (!empty(GedcomConfig::$META_REVISIT)) print "<meta name=\"revisit-after\" content=\"".GedcomConfig::$META_REVISIT."\" />\n";
-		  print "<meta name=viewport content=\"width=1020, initial-scale=1.01\" />\n";
-		  print "<meta name=\"generator\" content=\"Genmod v".GM_VERSION." - http://www.sourceforge.net/projects/genmod\" />\n";
+		  print "<meta name=\"generator\" content=\"Genmod v".GM_VERSION." - https://www.sourceforge.net/projects/genmod\" />\n";
 		 GedcomConfig::$META_AUTHOR = $old_META_AUTHOR;
 		 GedcomConfig::$META_PUBLISHER = $old_META_PUBLISHER;
 		 GedcomConfig::$META_COPYRIGHT = $old_META_COPYRIGHT;
@@ -339,6 +341,7 @@ function PrintSimpleHeader($title) {
 	if (!empty(GedcomConfig::$META_AUTHOR)) print "<meta name=\"author\" content=\"".GedcomConfig::$META_AUTHOR."\" />\n";
 	if (!empty(GedcomConfig::$META_PUBLISHER)) print "<meta name=\"publisher\" content=\"".GedcomConfig::$META_PUBLISHER."\" />\n";
 	if (!empty(GedcomConfig::$META_COPYRIGHT)) print "<meta name=\"copyright\" content=\"".GedcomConfig::$META_COPYRIGHT."\" />\n";
+	print "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.1\" />\n";
 	print "<meta name=\"keywords\" content=\"".GedcomConfig::$META_KEYWORDS;
 	$surnames = NameFunctions::GetCommonSurnamesIndex(GedcomConfig::$GEDCOMID);
 	foreach($surnames as $surname=>$count) print ", $surname";
@@ -350,9 +353,9 @@ function PrintSimpleHeader($title) {
 	if (!empty(GedcomConfig::$META_PAGE_TOPIC)) print "<meta name=\"page-topic\" content=\"".preg_replace("/\"/", "", GedcomConfig::$META_PAGE_TOPIC)."\" />\n";
 	if (!empty(GedcomConfig::$META_AUDIENCE)) print "<meta name=\"audience\" content=\"".GedcomConfig::$META_AUDIENCE."\" />\n";
 	if (!empty(GedcomConfig::$META_PAGE_TYPE)) print "<meta name=\"page-type\" content=\"".GedcomConfig::$META_PAGE_TYPE."\" />\n";
-	if (!empty(GedcomConfig::$META_ROBOTS)) print "<meta name=\"robots\" content=\"".GedcomConfig::$META_ROBOTS."\" />\n";
+	print ParseRobotsTXT();
 	if (!empty(GedcomConfig::$META_REVISIT)) print "<meta name=\"revisit-after\" content=\"".GedcomConfig::$META_REVISIT."\" />\n";
-	print "<meta name=\"generator\" content=\"Genmod v".GM_VERSION." - http://www.sourceforge.net/projects/genmod\" />\n";
+	print "<meta name=\"generator\" content=\"Genmod v".GM_VERSION." - https://www.sourceforge.net/projects/genmod\" />\n";
 	GedcomConfig::$META_AUTHOR = $old_META_AUTHOR;
 	GedcomConfig::$META_PUBLISHER = $old_META_PUBLISHER;
 	GedcomConfig::$META_COPYRIGHT = $old_META_COPYRIGHT;
@@ -429,7 +432,7 @@ function PrintFooter() {
 	else {
 		include(GM_PRINT_FOOTERFILE);
 		print "\n\t<div class=\"FooterPreviewLinkContainer\"><br />";
-		$backlink = SCRIPT_NAME."?".GetQueryString();
+		$backlink = basename(SCRIPT_NAME)."?".GetQueryString();
 		if (!$printlink) {
 			print "\n\t<br /><a id=\"printlink\" href=\"#\" onclick=\"print(); return false;\">".GM_LANG_print."</a><br />";
 			print "\n\t <a id=\"printlinktwo\"	  href=\"#\" onclick=\"window.location='".$backlink."'; return false;\">".GM_LANG_cancel_preview."</a><br />";
@@ -469,7 +472,7 @@ function PrintSimpleFooter() {
 		PrintContactLinks();
 		print "<div class=\"FooterExecutionStats\">";
 			if (GedcomConfig::$SHOW_STATS) PrintExecutionStats();
-			print "<br />Running <a href=\"http://www.sourceforge.net/projects/genmod/\" target=\"_blank\">Genmod";
+			print "<br />Running <a href=\"https://www.sourceforge.net/projects/genmod/\" target=\"_blank\">Genmod";
 			if (count($CONFIG_PARMS) >1) print " Enterprise";
 			print MediaFS::GetStorageType();
 			print "</a> - Version ".GM_VERSION." ".GM_VERSION_RELEASE;

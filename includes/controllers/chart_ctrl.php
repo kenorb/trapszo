@@ -22,7 +22,7 @@
  *
  * @package Genmod
  * @subpackage Charts
- * @version $Id: chart_ctrl.php 13 2016-04-27 09:26:01Z Boudewijn $
+ * @version $Id: chart_ctrl.php 29 2022-07-17 13:18:20Z Boudewijn $
  */
 
 if (stristr($_SERVER["SCRIPT_NAME"],basename(__FILE__))) {
@@ -82,8 +82,8 @@ abstract class ChartController extends BaseController {
 		else $this->show_spouse = $_REQUEST["show_spouse"];
 		if ($this->show_spouse == "") $this->show_spouse = 0;
 		
-		if (!isset($_REQUEST["box_width"]) || $_REQUEST["box_width"] == "") $this->box_width = "100";
-		else $this->box_width = $_REQUEST["box_width"];
+		if (!isset($_REQUEST["box_width"]) || (int)$_REQUEST["box_width"] == "") $this->box_width = "100";
+		else $this->box_width = (int)$_REQUEST["box_width"];
 		$this->box_width = max($this->box_width, 50);
 		$this->box_width = min($this->box_width, 300);
 		

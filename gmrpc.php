@@ -21,7 +21,7 @@
  *
  * @package Genmod
  * @subpackage zwooff
- * @version $Id: gmrpc.php 30 2016-07-08 09:16:21Z Boudewijn $
+ * @version $Id: gmrpc.php 29 2022-07-17 13:18:20Z Boudewijn $
  */
  
 require "config.php";
@@ -29,6 +29,17 @@ require "config.php";
 if (!isset($action)) $action = "";
 
 switch($action) {
+	
+	case "check_captcha":
+		if (isset($return) && $return = "bool") {
+			if (isset($captcha) && !empty($captcha) && $_SESSION["phpcaptcha"] == $captcha) print "1";
+			else print "0";
+		}
+		else {
+			if (isset($captcha) && !empty($captcha) && $_SESSION["phpcaptcha"] == $captcha) print "";
+			else print "<span class=\"Error\">".GM_LANG_enter_captcha."</span>";
+		}
+	break;
 	
 	case "lastused":
 		if (isset($id) && isset($type)) $_SESSION["last_used"][$type] = $id;
@@ -69,8 +80,10 @@ switch($action) {
 	break;
 
 	case "checkuser":
-		$u =& User::GetInstance($username);
-		if (!$u->is_empty) print "<span class=\"Error\">".GM_LANG_duplicate_username."</span>";
+		if(isset($username)) {
+			$u =& User::GetInstance($username);
+			if (!$u->is_empty) print "<span class=\"Error\">".GM_LANG_duplicate_username."</span>";
+		}
 		else print "";
 	break;
 
@@ -405,6 +418,7 @@ switch($action) {
 	
 	case "loadblockusermessage":
 	
+		print "<form name=\"messageform\" action=\"\" onsubmit=\"return confirm('".GM_LANG_confirm_message_delete."');\">\n";				
 		$usermessages = MessageController::getUserMessages($gm_user->username);
 		print "<form name=\"messageform\" action=\"\" onsubmit=\"return confirm('".GM_LANG_confirm_message_delete."');\">\n";
 		if (count($usermessages)==0) {
@@ -476,7 +490,7 @@ switch($action) {
 		}
 		$users = UserController::GetUsers("lastname", "asc", "firstname");
 		if (count($users)>1) {
-			print GM_LANG_message." <select name=\"touser\">\n";
+			print GM_LANG_message." <select name=\"touser\" id=\"touser\">\n";
 			$username = $gm_user->username;
 			if ($gm_user->userIsAdmin()) {
 				print "<option value=\"all\">".GM_LANG_broadcast_all."</option>\n";
@@ -491,7 +505,7 @@ switch($action) {
 					else print " &rlm; - ".$user->username."&rlm;</option>\n";
 				}
 			}
-			print "</select><input type=\"button\" value=\"".GM_LANG_send."\" onclick=\"message(document.messageform.touser.options[document.messageform.touser.selectedIndex].value, 'messaging2', ''); return false;\" />\n";
+			print "</select><input type=\"button\" value=\"".GM_LANG_send."\" onclick=\"message(document.getElementById('touser').value, 'messaging2', ''); return false;\" />\n";
 		}
 		print "</form>\n";
 	

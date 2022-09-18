@@ -24,7 +24,7 @@
  *
  * @package Genmod
  * @subpackage Charts
- * @version $Id: clippings.php 13 2016-04-27 09:26:01Z Boudewijn $
+ * @version $Id: clippings.php 29 2022-07-17 13:18:20Z Boudewijn $
  */
 
 /**
@@ -84,7 +84,8 @@ if($clippings_controller->action == 'download') {
 		print "<tr><td class=\"NavBlockLabel\" rowspan=\"".$clippings_controller->mediacount."\">".GM_LANG_media_files."</td>";
 		for($m=0; $m < $clippings_controller->mediacount; $m++) {
 			$fileobj = new MFile(trim(GedcomConfig::$MEDIA_DIRECTORY.$clippings_controller->media[$m]));
-			print "<td class=\"NavBlockField\"><a href=\"".$fileobj->f_main_file."\">".substr($clippings_controller->media[$m], strrpos($clippings_controller->media[$m], "/")+1)."</a></td>";
+			print "<td class=\"NavBlockField\">";
+			print "<a href=\"".SERVER_URL.$fileobj->f_main_file."\">".substr($clippings_controller->media[$m], strrpos($clippings_controller->media[$m], "/")+1)."</a></td>";
 			if ($m <> $clippings_controller->mediacount-1) print "</tr><tr>";
 		}
 		print "</tr>";
@@ -124,12 +125,12 @@ else {
 	for($i=0; $i<$ct; $i++) {
 		print "\r\n\t\t<tr>\r\n\t\t<td class=\"ListTableContent\">";
 		$clipping = $clippings_controller->cart[GedcomConfig::$GEDCOMID][$i];
-		if($clipping['type']=='indi') print "<img src=\"".GM_IMAGE_DIR."/".$GM_IMAGES["indis"]["small"]."\" border=\"0\" alt=\"".GM_LANG_individual."\" />";
-		else if($clipping['type']=='fam') print "<img src=\"".GM_IMAGE_DIR."/".$GM_IMAGES["sfamily"]["small"]."\" border=\"0\" alt=\"".GM_LANG_family."\" />";
-		else if($clipping['type']=='sour') print "<img src=\"".GM_IMAGE_DIR."/".$GM_IMAGES["source"]["small"]."\" border=\"0\" alt=\"".GM_LANG_source."\" />";
-		else if($clipping['type']=='repo') print "<img src=\"".GM_IMAGE_DIR."/".$GM_IMAGES["repository"]["small"]."\" border=\"0\" alt=\"".GM_LANG_repo."\" />";
-		else if($clipping['type']=='obje') print "<img src=\"".GM_IMAGE_DIR."/".$GM_IMAGES["media"]["small"]."\" border=\"0\" alt=\"".GM_LANG_media."\" />";
-		else if($clipping['type']=='note') print "<img src=\"".GM_IMAGE_DIR."/".$GM_IMAGES["note"]["other"]."\" border=\"0\" alt=\"".GM_LANG_note."\" />";
+		if($clipping['type']=='indi') print "<img src=\"".GM_IMAGE_DIR."/".$GM_IMAGES["indis"]["small"]."\" border=\"0\" alt=\"".GM_LANG_individual."\" title=\"".GM_LANG_individual."\" />";
+		else if($clipping['type']=='fam') print "<img src=\"".GM_IMAGE_DIR."/".$GM_IMAGES["sfamily"]["small"]."\" border=\"0\" alt=\"".GM_LANG_family."\" title=\"".GM_LANG_family."\" />";
+		else if($clipping['type']=='sour') print "<img src=\"".GM_IMAGE_DIR."/".$GM_IMAGES["source"]["small"]."\" border=\"0\" alt=\"".GM_LANG_source."\" title=\"".GM_LANG_source."\" />";
+		else if($clipping['type']=='repo') print "<img src=\"".GM_IMAGE_DIR."/".$GM_IMAGES["repository"]["small"]."\" border=\"0\" alt=\"".GM_LANG_repo."\" title=\"".GM_LANG_repo."\" />";
+		else if($clipping['type']=='obje') print "<img src=\"".GM_IMAGE_DIR."/".$GM_IMAGES["media"]["small"]."\" border=\"0\" alt=\"".GM_LANG_media."\" title=\"".GM_LANG_media."\" />";
+		else if($clipping['type']=='note') print "<img src=\"".GM_IMAGE_DIR."/".$GM_IMAGES["note"]["other"]."\" border=\"0\" alt=\"".GM_LANG_note."\" title=\"".GM_LANG_note."\" />";
 		print "</td><td class=\"ListTableContent\">".$clipping['id']."</td><td class=\"ListTableContent\">";
 
 		$id_ok = true;

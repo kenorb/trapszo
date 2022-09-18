@@ -21,7 +21,7 @@
  *
  * @package Genmod
  * @subpackage Admin
- * @version $Id: gedcomconfig_class.php 13 2016-04-27 09:26:01Z Boudewijn $
+ * @version $Id: gedcomconfig_class.php 29 2022-07-17 13:18:20Z Boudewijn $
  */
 
 if (stristr($_SERVER["SCRIPT_NAME"],basename(__FILE__))) {
@@ -108,6 +108,7 @@ abstract class GedcomConfig {
 	public static $MEDIA_EXTERNAL = true;					// Set whether or not to change links starting with http, ftp etc.
 	public static $MEDIA_DIRECTORY = "media/";				// Directory where media files are stored
 	public static $MEDIA_DIRECTORY_LEVELS = "0";			// The number of sub-directories to keep when getting names of media files
+	public static $MEDIA_DIRECTORY_HIDE = ".svn, _svn, ., .., CVS, @eaDir"; // Directories to exclude from mediatrees, at any level.
 	public static $SHOW_HIGHLIGHT_IMAGES = true;			// Show highlighted photos on pedigree tree and individual pages.
 	public static $USE_THUMBS_MAIN = false;					// For the main image on the individual page, whether or not to use the full res 
 															// image or the thumbnail
@@ -127,7 +128,7 @@ abstract class GedcomConfig {
 															// This is who the user should contact in case of errors
 	public static $SUPPORT_METHOD = "messaging2";			// The method to allow users to contact you. options are: mailto, messaging, messaging2
 	public static $BCC_WEBMASTER = false;					// Send a Bcc of system generated messages to the webmaster
-	public static $HOME_SITE_URL = "http://www.sourceforge.net/projects/genmod";	// Url for your home page
+	public static $HOME_SITE_URL = "https://www.sourceforge.net/projects/genmod";	// Url for your home page
 	public static $HOME_SITE_TEXT = "About Genmod";			// Name of your site
 	public static $FAVICON = "images/favicon.ico";			// Change to point to your favicon, either relative or absolute
 	public static $THEME_DIR = "themes/standard/";			// Directory where display theme files are kept
@@ -146,6 +147,7 @@ abstract class GedcomConfig {
 	public static $META_AUDIENCE = "All";					// The intended audience
 	public static $META_PAGE_TYPE = "Private Homepage";		// The type of page
 	public static $META_ROBOTS = "index,follow";			// Instructions for robots
+	public static $META_ROBOTS_DENY = "none";					// Instructions for robots if access is denied by robots.txt
 	public static $META_REVISIT = "10 days";				// How often crawlers should reindex the site
 	public static $META_KEYWORDS = "ancestry, genealogy, pedigree tree";	
 															// any aditional keywords, the most common surnames list will be appended to 
@@ -153,6 +155,7 @@ abstract class GedcomConfig {
 	public static $META_TITLE = "";							// Optional text that can be added to the html page <title></title> line
 	public static $META_SURNAME_KEYWORDS = true;			// Option to use the most common surnames in the keywords field
 	public static $CHART_BOX_TAGS = "";						// Optional comma seperated gedcom tags to show in chart boxes
+	public static $INCLUDE_IN_SITEMAP = true;				// Whether or not to include in sitemaps (with respect to privacy)
 	public static $SHOW_LDS_AT_GLANCE = false;				// Show status of LDS ordinances in chart boxes
 	public static $UNDERLINE_NAME_QUOTES = false;			// Convert double quotes in names to underlines
 	public static $SPLIT_PLACES = false;					// Split PLAC tag into subtags (town, county, state...) in edit mode

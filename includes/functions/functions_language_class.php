@@ -24,7 +24,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  * @package Genmod
- * @version $Id: functions_language_class.php 13 2016-04-27 09:26:01Z Boudewijn $
+ * @version $Id: functions_language_class.php 29 2022-07-17 13:18:20Z Boudewijn $
  */
 
 /**
@@ -270,7 +270,7 @@ abstract class LanguageFunctions {
 	 * @return 	string	The string in the requested language
 	 */
 	public function GetString($string, $language2, $file_type="") {
-	
+
 		if ($file_type == "facts") {
 			$sql = "SELECT lg_".$language2.", lg_english FROM ".TBLPREFIX."facts";
 			$sql .= " WHERE lg_string = '".$string."'";
@@ -283,7 +283,8 @@ abstract class LanguageFunctions {
 	
 		$res = NewQuery($sql);
 		$row = $res->FetchAssoc($res->result);
-		if (empty($row["lg_".$language2])) return $row["lg_english"];
+		if ($res->NumRows($res) == 0) return "";
+		else if (empty($row["lg_".$language2])) return $row["lg_english"];
 		else return $row["lg_".$language2];
 	
 	}

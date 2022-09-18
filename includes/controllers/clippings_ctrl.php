@@ -22,7 +22,7 @@
  *
  * @package Genmod
  * @subpackage export
- * @version $Id: clippings_ctrl.php 13 2016-04-27 09:26:01Z Boudewijn $
+ * @version $Id: clippings_ctrl.php 29 2022-07-17 13:18:20Z Boudewijn $
  */
 
 if (stristr($_SERVER["SCRIPT_NAME"],basename(__FILE__))) {
@@ -440,10 +440,9 @@ class ClippingsController extends BaseController {
 				$record = RemoveCustomTags($record, $this->remove);
 				if ($this->convert == "yes") $record = utf8_decode($record);
 				if ($clipping['type'] == 'indi') {
-					foreach($object->famc as $key => $famid) {
-						if (!$this->IdInCart($famid)) {
-							$record = preg_replace("/1 FAMC @".$famid."@.*/", "", $record);
-						}
+					$famid = $object->primaryfamily;
+					if (!$this->IdInCart($famid)) {
+						$record = preg_replace("/1 FAMC @".$famid."@.*/", "", $record);
 					}
 					foreach ($object->fams as $key => $famid) {
 						if (!$this->IdInCart($famid)) {

@@ -23,7 +23,7 @@
  *
  * @package Genmod
  * @subpackage Charts
- * @version $Id: individual_ctrl.php 13 2016-04-27 09:26:01Z Boudewijn $
+ * @version $Id: individual_ctrl.php 29 2022-07-17 13:18:20Z Boudewijn $
  */
 
 if (stristr($_SERVER["SCRIPT_NAME"],basename(__FILE__))) {
@@ -188,7 +188,7 @@ class IndividualController extends DetailController {
 						else $filename = $media->fileobj->f_main_file;
 						if ($media->fileobj->f_height != 0 && $media->fileobj->f_height < 150) $height = $media->fileobj->f_height;
 						else $height = 150;
-						$this->HighlightedObject = '<img src="'.$filename.'" class="IndiPicture" height="'.$height.'" alt="'.$media->title.'" />';
+						$this->HighlightedObject = '<img src="'.$filename.'" class="IndiPicture" height="'.$height.'" alt="'.$media->title.'" title="'.$media->title.'" />';
 						$this->canshowhighlightedobj = true;
 					}
 					else $this->canshowhighlightedobj = false;
@@ -446,11 +446,16 @@ class IndividualController extends DetailController {
 				else print $fact;
 				print ":</span><span class=\"IndiHeaderField\"> ";
 				if (isset($nmatch[$i][2])) {
-			  		$name = trim($nmatch[$i][2]);
-					if ($NAME_REVERSE || NameFunctions::HasChinese($name, true)) $name = NameFunctions::ReverseName($name);
-			  		$name = preg_replace("'/,'", ",", $name);
-					$name = preg_replace("'/'", " ", $name);
-					print PrintReady(NameFunctions::CheckNN($name));
+					$name = trim($nmatch[$i][2]);
+					if ($fact == "RESN") {
+						print constant("GM_LANG_".$name);
+					}
+					else {
+						if ($NAME_REVERSE || NameFunctions::HasChinese($name, true)) $name = NameFunctions::ReverseName($name);
+						$name = preg_replace("'/,'", ",", $name);
+						$name = preg_replace("'/'", " ", $name);
+						print PrintReady(NameFunctions::CheckNN($name));
+					}
 				}
 				print " </span><br />";
 			}

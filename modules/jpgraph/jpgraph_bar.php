@@ -3,7 +3,7 @@
  // File:        JPGRAPH_BAR.PHP
  // Description: Bar plot extension for JpGraph
  // Created:     2001-01-08
- // Ver:         $Id: jpgraph_bar.php 1905 2009-10-06 18:00:21Z ljp $
+ // Ver:         $Id: jpgraph_bar.php 29 2022-07-17 13:18:20Z Boudewijn $
  //
  // Copyright (c) Asial Corporation. All rights reserved.
  //========================================================================

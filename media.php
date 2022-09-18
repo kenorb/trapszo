@@ -22,7 +22,7 @@
  * @author Genmod Development Team
  * @package Genmod
  * @subpackage Display
- * @version $Id: media.php 13 2016-04-27 09:26:01Z Boudewijn $
+ * @version $Id: media.php 29 2022-07-17 13:18:20Z Boudewijn $
  */
 
 /**
@@ -300,7 +300,7 @@ if ($disp1 == "block") {
 		print "\n<div id=\"ManageMediaFilterBlock\" class=\"BlockContainer ManageMediaBlockContainer\">";
 			print "<div class=\"BlockHeader ManageMediaBlockHeader\">".GM_LANG_filter."</div>";
 				print "<div class=\"BlockContent ManageMediaBlockContent\">";
-				print "<input type=\"text\" name=\"filter\" value=\"".$filter."\" /><br />";
+				print "<input class=\"ManageMediaBlockInputText\" type=\"text\" name=\"filter\" value=\"".$filter."\" /><br />";
 				print "<input type=\"button\" value=\"".GM_LANG_filter."\" onclick=\"document.managemedia.action.value='filter'; document.managemedia.submit(); return false;\" />";
 			print "</div>";
 		print "</div>";
@@ -353,7 +353,7 @@ if ($disp1 == "block") {
 				print "<div class=\"BlockContent ManageMediaBlockContent\">";
 					// Create
 					print "<input type=\"radio\" name=\"dir_action\" value=\"create\" checked=\"checked\"/>";
-					print GM_LANG_create_dir."<br /><input type=\"text\" name=\"new_dir\" /><br />";
+					print GM_LANG_create_dir."<br /><input type=\"text\" class=\"ManageMediaBlockInputText\" name=\"new_dir\" /><br />";
 					print GM_LANG_under."<br />";
 					print "<div class=\"ManageMediaBlockDirList\">";
 						print "<select name=\"parent_dir\">";
@@ -464,7 +464,7 @@ if ($disp1 == "block") {
 					print "\n\t<a href=\"mediadetail.php?mid=".$media->xref."&amp;gedid=".$media->gedcomid."\" target=\"_blank\">".$media->title."</a><br />";
 				}
 				print "</div>";
-				print "<img src=\"".GM_IMAGE_DIR."/".$GM_IMAGES["link"]["other"]."\" class=\"ManageMediaFileLinks\" border=\"0\" alt=\"".GM_LANG_click_mm_links."\" onclick=\"showbox(this, '".$counter."', 'relatives'); return false;\" onmouseout=\"moveout('".$counter."');return false;\"/>";
+				print "<img src=\"".GM_IMAGE_DIR."/".$GM_IMAGES["link"]["other"]."\" class=\"ManageMediaFileLinks\" border=\"0\" alt=\"".GM_LANG_click_mm_links."\" title=\"".GM_LANG_click_mm_links."\" onclick=\"showbox(this, '".$counter."', 'relatives'); return false;\" onmouseout=\"moveout('".$counter."');return false;\"/>";
 			}
 			else print "&nbsp;";
 			print "</td>";
@@ -476,7 +476,7 @@ if ($disp1 == "block") {
 				print "<a href=\"media.php?action=delete&amp;file=".urlencode(MediaFS::NormalizeLink($filename))."&amp;directory=".$directory."&amp;thumbs=".$thumbs."&amp;filter=".$filter."\" onclick=\"return confirm('".GM_LANG_del_mm_file1;
 				if (isset($file["objects"])) print GM_LANG_del_mm_file2;
 				print "');\">";
-				print "<img src=\"".GM_IMAGE_DIR."/".$GM_IMAGES["delete"]["other"]."\" border=\"0\" alt=\"".GM_LANG_delete_file."\" /></a>";
+				print "<img src=\"".GM_IMAGE_DIR."/".$GM_IMAGES["delete"]["other"]."\" border=\"0\" alt=\"".GM_LANG_delete_file."\" title=\"".GM_LANG_delete_file."\" /></a>";
 			}
 			else print "&nbsp;";
 //			print "</td>";
@@ -494,7 +494,7 @@ if ($disp1 == "block") {
 				print "\" target=\"_blank\">";
 			}
 			else print "<a href=\"downloadbackup.php?fname=".urlencode($filename)."\" target=\"_blank\">";
-			print "<img src=\"".GM_IMAGE_DIR."/".$GM_IMAGES["download"]["other"]."\" border=\"0\" alt=\"".GM_LANG_download_now."\" />";
+			print "<img src=\"".GM_IMAGE_DIR."/".$GM_IMAGES["download"]["other"]."\" border=\"0\" alt=\"".GM_LANG_download_now."\" title=\"".GM_LANG_download_now."\" />";
 			print "</a>";
 			
 			// Details
@@ -511,7 +511,7 @@ if ($disp1 == "block") {
 				print "</span>";
 				print "</div>";
 			
-				print "<img src=\"".GM_IMAGE_DIR."/".$GM_IMAGES["search"]["small"]."\" height=\"15\" width=\"15\" border=\"0\" alt=\"".GM_LANG_click_details."\" onclick=\"showbox(this, '".$counter."D"."', 'relatives'); return false;\" onmouseout=\"moveout('".$counter."D"."');return false;\" />";
+				print "<img src=\"".GM_IMAGE_DIR."/".$GM_IMAGES["search"]["small"]."\" height=\"15\" width=\"15\" border=\"0\" alt=\"".GM_LANG_click_details."\" title=\"".GM_LANG_click_details."\" onclick=\"showbox(this, '".$counter."D"."', 'relatives'); return false;\" onmouseout=\"moveout('".$counter."D"."');return false;\" />";
 			print "</td>";
 			
 			$i++;

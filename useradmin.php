@@ -23,7 +23,7 @@
  *
  * @package Genmod
  * @subpackage Admin
- * @version $Id: useradmin.php 13 2016-04-27 09:26:01Z Boudewijn $
+ * @version $Id: useradmin.php 29 2022-07-17 13:18:20Z Boudewijn $
  */
 
 /**
@@ -127,11 +127,11 @@ if ($action=="createuser") {
 			if (!empty($user_language)) $user->language = $user_language;
 			else $user->language = $LANGUAGE;
 			$user->reg_timestamp = $reg_timestamp;
-			$user->reg_hashcode = $reg_hashcode;
+			$user->reg_hashcode = (isset($reg_hashcode) ? $reg_hashcode : "");
 			$user->gedcomid=array();
 			$user->rootid=array();
 			$user->canedit=array();
-			$user->password=crypt($pass1);
+			$user->password=password_hash($pass1, PASSWORD_DEFAULT);
 			if ((isset($canadmin))&&($canadmin=="yes")) $user->canadmin=true;
 			else $user->canadmin=false;
 			if ((isset($visibleonline))&&($visibleonline=="yes")) $user->visibleonline=true;
@@ -227,7 +227,7 @@ if ($action=="edituser2") {
 			$newuser = CloneObj($olduser);
 
 			if (empty($pass1)) $newuser->password=$olduser->password;
-			else $newuser->password=crypt($pass1);
+			else $newuser->password=password_hash($pass1, PASSWORD_DEFAULT);
 			UserController::DeleteUser($oldusername, "changed");
 			$newuser->username=$uusername;
 			$newuser->firstname=$ufirstname;
@@ -260,10 +260,10 @@ if ($action=="edituser2") {
 				if (isset($$varname)) $newuser->rootid[$gedcomid]=$$varname;
 				$varname = "canedit_$gedcomid";
 				if (isset($$varname)) $newuser->canedit[$gedcomid]=$$varname;
-				else $user->canedit[$gedcomid]="none";
+				else $newuser->canedit[$gedcomid]="none";
 				$varname = "privgroup_$gedcomid";
 				if (isset($$varname)) $newuser->privgroup[$gedcomid]=$$varname;
-				else $user->privgroup[$gedcomid]="access";
+				else $newuser->privgroup[$gedcomid]="access";
 				$varname = "new_gedadmin_$gedcomid";
 				if (isset($$varname) && $$varname == "Y") $newuser->gedcomadmin[$gedcomid] = true;
 				else $newuser->gedcomadmin[$gedcomid] = false;

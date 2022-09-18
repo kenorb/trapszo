@@ -21,7 +21,7 @@
  *
  * @package Genmod
  * @subpackage Admin
- * @version $Id: session.php 19 2016-05-15 10:50:03Z Boudewijn $
+ * @version $Id: session.php 43 2018-08-15 15:38:10Z Boudewijn $
  */
 
 // NOTE: Start the debug collector
@@ -130,7 +130,7 @@ date_default_timezone_set(date_default_timezone_get());
 @error_reporting(0);
 
 // NOTE: Version of Genmod
-define("GM_VERSION", "2.0");
+define("GM_VERSION", "2.1");
 define("GM_VERSION_RELEASE", "Beta 2");
 define("GM_REQUIRED_PRIVACY_VERSION", "3.3");
 define("GM_REQUIRED_CONFIG_VERSION", "3.1");
@@ -145,8 +145,8 @@ else define("MB_FUNCTIONS", false);
 if (version_compare(phpversion(), "5.3") < 0) set_magic_quotes_runtime(0);
 
 
-if (!empty($_SERVER["SCRIPT_NAME"])) define("SCRIPT_NAME", $_SERVER["SCRIPT_NAME"]);
-else if (!empty($_SERVER["PHP_SELF"])) define("SCRIPT_NAME", $_SERVER["PHP_SELF"]);
+if (!empty($_SERVER["SCRIPT_NAME"])) define("SCRIPT_NAME", basename($_SERVER["SCRIPT_NAME"]));
+else if (!empty($_SERVER["PHP_SELF"])) define("SCRIPT_NAME", basename($_SERVER["PHP_SELF"]));
 if (!empty($_SERVER["QUERY_STRING"])) $QUERY_STRING = $_SERVER["QUERY_STRING"];
 else $QUERY_STRING="";
 $QUERY_STRING = preg_replace(array("/&/","/</"), array("&amp;","&lt;"), $QUERY_STRING);
@@ -342,7 +342,7 @@ foreach($_REQUEST as $key=>$value) {
 			exit;
 		}
 		//-- don't let any html in
-		if (!empty($value)) ${$key} = preg_replace(array("/</","/>/"), array("&lt;","&gt;"), $value);
+		if (isset($value)) ${$key} = preg_replace(array("/</","/>/"), array("&lt;","&gt;"), $value);
 	}
 	else {
 		foreach($value as $key1=>$val) {
@@ -355,7 +355,7 @@ foreach($_REQUEST as $key=>$value) {
 					exit;
 				}
 				//-- don't let any html in
-				if (!empty($val)) ${$key}[$key1] = preg_replace(array("/</","/>/"), array("&lt;","&gt;"), $val);
+				if (isset($val)) ${$key}[$key1] = preg_replace(array("/</","/>/"), array("&lt;","&gt;"), $val);
 			}
 		}
 	}

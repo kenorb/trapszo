@@ -22,7 +22,7 @@
  *
  * @package Genmod
  * @subpackage Search
- * @version $Id: search_ctrl.php 13 2016-04-27 09:26:01Z Boudewijn $
+ * @version $Id: search_ctrl.php 29 2022-07-17 13:18:20Z Boudewijn $
  */
 
 if (stristr($_SERVER["SCRIPT_NAME"],basename(__FILE__))) {
@@ -948,7 +948,7 @@ class SearchController extends BaseController {
 					$this->printsource[] = $source->key;
 					$this->sour_printed[$source->key] = "1";
 				}
-				else if ($this->hit == true) $this->source_hide[$source->key] = 1;
+				else if ($this->hit == true) $this->sour_hide[$source->key] = 1;
 			}
 			SwitchGedcom();
 		}

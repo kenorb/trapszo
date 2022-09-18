@@ -22,7 +22,7 @@
  *
  * @package Genmod
  * @subpackage Lists
- * @version $Id: placelist_ctrl.php 13 2016-04-27 09:26:01Z Boudewijn $
+ * @version $Id: placelist_ctrl.php 29 2022-07-17 13:18:20Z Boudewijn $
  */
 
 if (stristr($_SERVER["SCRIPT_NAME"],basename(__FILE__))) {
@@ -49,8 +49,8 @@ class PlaceListController extends ListController {
 	public function __construct() {
 		
 		parent::__construct();
-		if ($this->action = "") $this->action = "find";
-		
+		if ($this->action == "") $this->action = "find";
+
 		if (isset($_REQUEST["display"])) $this->display = $_REQUEST["display"];
 		if (is_null($this->display)) $this->display = "hierarchy";
 		
@@ -154,7 +154,7 @@ class PlaceListController extends ListController {
 			$placelist[] = $row["p_place"];
 		}
 		$res->FreeResult();
-		if (count($placelist == 0)) $this->action = "show";
+		if (count($placelist) == 0) $this->action = "show";
 		uasort($placelist, "stringsort");
 		return $placelist;
 	}

@@ -3,7 +3,7 @@
  // File:        JPGRAPH_PIE.PHP
  // Description: Pie plot extension for JpGraph
  // Created:     2001-02-14
- // Ver:         $Id: jpgraph_pie.php 1926 2010-01-11 16:33:07Z ljp $
+ // Ver:         $Id: jpgraph_pie.php 29 2022-07-17 13:18:20Z Boudewijn $
  //
  // Copyright (c) Asial Corporation. All rights reserved.
  //========================================================================
