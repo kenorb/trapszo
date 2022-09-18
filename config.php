@@ -29,5 +29,8 @@
  * @version $Id: config.php 13 2016-04-27 09:26:01Z Boudewijn $
  */
 
+if (file_exists("config.local.php")) {
+  require_once("config.local.php");
+}
 require_once("includes/session.php");
 ?>
